@@ -40,42 +40,51 @@ public class JsonUtils {
 
             JSONObject name = sandwichJson.getJSONObject(SAND_NAME);
             String mainName = name.getString(SAND_NAME_MAIN);
-            String otherNames = name.getString(SAND_AKA);
+            //String otherNames = name.getString(SAND_AKA);
 
             JSONArray otherNamesArray = name.getJSONArray(SAND_AKA);
-            //need to convert to string array from list string
             List<String> otherNamesList = new ArrayList<String>();
+            Log.v(TAG, "othernamesarray length = " + String.valueOf(otherNamesArray.length()));
             for (int i = 0; i < otherNamesArray.length(); i++){
                     otherNamesList.add(otherNamesArray.getString(i));
+                    int size = otherNamesList.size();
+                    Log.v(TAG, "how many names there are "+String.valueOf(size));
+            }
+
+            JSONArray ingredientsArray = sandwichJson.getJSONArray(SAND_INGREDIENTS);
+            List<String> ingredientsList = new ArrayList<String>();
+            for (int i=0; i < ingredientsArray.length(); i++){
+                ingredientsList.add(ingredientsArray.getString(i));
             }
 
 
 
-            String sampleOtherName = otherNamesArray.getString(0);
-            //String name = sandwichJson.getString(SAND_NAME_MAIN);
             Log.v(TAG, origin);
             Log.v(TAG, description);
             Log.v(TAG, image);
             Log.v(TAG, mainName);
-            Log.v(TAG, otherNamesList[0]);
-            Log.v(TAG, sampleOtherName);
-            Log.v(TAG, ingredients);
 
+            if (otherNamesList.size()>0){
+                Log.v(TAG, otherNamesList.get(0));
+            }
+
+            //Log.v(TAG, ingredients);
+            Log.v(TAG, ingredientsList.get(0));
 
         Sandwich mSandwich = new Sandwich();
 
 
-        //mSandwich.setDescription("a good sandwich");
-        //mSandwich.setImage("https://upload.wikimedia.org/wikipedia/commons/c/ca/Bosna_mit_2_Bratw%C3%BCrsten.jpg");
+        mSandwich.setDescription(description);
+        mSandwich.setImage(image);
 
         //List<String> aka = Arrays.asList("name1", "name2");
-        //mSandwich.setAlsoKnownAs(aka);
+        mSandwich.setAlsoKnownAs(otherNamesList);
 
         //List<String> ingreds = Arrays.asList("bread", "cheese");
-        //mSandwich.setIngredients(ingreds);
+        mSandwich.setIngredients(ingredientsList);
 
-        //mSandwich.setMainName("special sammy");
-        //mSandwich.setPlaceOfOrigin("ann arbor");
+        mSandwich.setMainName(mainName);
+        mSandwich.setPlaceOfOrigin(origin);
 
 
         return mSandwich;
