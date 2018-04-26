@@ -19,9 +19,8 @@ public class JsonUtils {
 
 
 
-    public static Sandwich parseSandwichJson(String json)
-    throws JSONException {
-
+    public static Sandwich parseSandwichJson(String json) throws JSONException {
+            //TODO 4) handle exception properly
             final String SAND_NAME_MAIN = "mainName";
             final String SAND_NAME = "name";
             final String SAND_AKA = "alsoKnownAs";

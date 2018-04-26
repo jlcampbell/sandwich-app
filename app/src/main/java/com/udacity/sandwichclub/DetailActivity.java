@@ -14,6 +14,8 @@ import com.udacity.sandwichclub.utils.JsonUtils;
 
 import org.json.JSONException;
 
+import java.util.List;
+
 public class DetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_POSITION = "extra_position";
@@ -70,8 +72,14 @@ public class DetailActivity extends AppCompatActivity {
         //image and main name already done above
 
         //other names
+        //TODO 2) fix comma issue
         TextView otherNamesTV = findViewById(R.id.also_known_tv);
-        //otherNamesTV.setText(sandwich.getAlsoKnownAs());
+        List<String> namesList = sandwich.getAlsoKnownAs();
+        String names = "";
+        for (int i=0; i< namesList.size(); i++){
+            names+= namesList.get(i)+ ", ";
+        }
+        otherNamesTV.setText(names);
 
         //origin
         TextView originTV = findViewById(R.id.origin_tv);
@@ -82,6 +90,7 @@ public class DetailActivity extends AppCompatActivity {
         descriptionTV.setText(sandwich.getDescription());
 
         //ingredients
+        //TODO 3) set ingredients
 
     }
 }
