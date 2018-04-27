@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.udacity.sandwichclub.model.Sandwich;
 import com.udacity.sandwichclub.utils.JsonUtils;
@@ -26,7 +28,7 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        ImageView ingredientsIv = findViewById(R.id.image_iv);
+        final ImageView ingredientsIv = findViewById(R.id.image_iv);
 
         Intent intent = getIntent();
         if (intent == null) {
@@ -42,24 +44,21 @@ public class DetailActivity extends AppCompatActivity {
 
         String[] sandwiches = getResources().getStringArray(R.array.sandwich_details);
         String json = sandwiches[position];
-        try {
-            Sandwich sandwich = JsonUtils.parseSandwichJson(json);
-            if (sandwich == null) {
-                // Sandwich data unavailable
-                closeOnError();
-                return;
+            try {
+                Sandwich sandwich = JsonUtils.parseSandwichJson(json);
+                if (sandwich == null) {
+                    // Sandwich data unavailable
+                    closeOnError();
+                    return;
+                }
+                populateUI(sandwich);
+                Picasso.with(this)
+                        .load(sandwich.getImage())
+                        .into(ingredientsIv);
+                setTitle(sandwich.getMainName());
+            } catch (JSONException e){
+                throw new RuntimeException(e);
             }
-            populateUI(sandwich);
-            Picasso.with(this)
-                    .load(sandwich.getImage())
-                    .into(ingredientsIv);
-
-            setTitle(sandwich.getMainName());
-
-
-        } catch (JSONException e){
-
-        }
 
     }
 
@@ -69,10 +68,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void populateUI(Sandwich sandwich) {
-        //TODO 6) don't show text views that have no content
-        //TODO 7) don't show image view with no content
         //image and main name already done above
-
         //other names
         TextView otherNamesTV = findViewById(R.id.also_known_tv);
         List<String> namesList = sandwich.getAlsoKnownAs();
