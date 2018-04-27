@@ -69,15 +69,19 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void populateUI(Sandwich sandwich) {
+        //TODO 6) don't show text views that have no content
+        //TODO 7) don't show image view with no content
         //image and main name already done above
 
         //other names
-        //TODO 2) fix comma issue
         TextView otherNamesTV = findViewById(R.id.also_known_tv);
         List<String> namesList = sandwich.getAlsoKnownAs();
         String names = "";
         for (int i=0; i< namesList.size(); i++){
-            names+= namesList.get(i)+ ", ";
+            names+= namesList.get(i);
+            if (i < (namesList.size() - 1)) {
+                names+= ", ";
+            }
         }
         otherNamesTV.setText(names);
 
@@ -90,7 +94,15 @@ public class DetailActivity extends AppCompatActivity {
         descriptionTV.setText(sandwich.getDescription());
 
         //ingredients
-        //TODO 3) set ingredients
-
+        TextView ingredientsTV = findViewById(R.id.ingredients_tv);
+        List<String> ingredientsList = sandwich.getIngredients();
+        String ingredientsString = "";
+        for (int i=0; i< ingredientsList.size(); i++){
+            ingredientsString+= ingredientsList.get(i);
+            if (i<(ingredientsList.size()-1)) {
+                ingredientsString+= ", ";
+            }
+        }
+        ingredientsTV.setText(ingredientsString);
     }
 }
